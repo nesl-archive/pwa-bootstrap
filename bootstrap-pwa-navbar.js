@@ -1,7 +1,3 @@
-const initNav = () => {
-    initHeaderToggleListener('header-toggle', 'nav-bar', 'body-pd', 'header')
-}
-
 const initLinkActive = () => {
     const linkColor = document.querySelectorAll('.nav_link')
     function colorLink() {
@@ -35,6 +31,6 @@ const initHeaderToggleListener = (toggleId, navId, bodyId, headerId) => {
 }
 
 document.addEventListener("DOMContentLoaded", event => {
-    initNav()
+    initHeaderToggleListener('header-toggle', 'nav-bar', 'body-pd', 'header')
     initLinkActive()
 });
