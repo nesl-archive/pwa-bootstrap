@@ -8,28 +8,46 @@ $white-color: #F7F6FB
 $body-font: 'Nunito', sans-serif
 $normal-font-size: 1rem
 $z-fixed: 10
-
+$icon-size: 1.25rem
 $pc-media:1024px
 $pad-media:768px
 $phone-media:425px
 
-//手機
-@mixin pad-width() 
+// ===========
+// 設備 (沒有特別使用 [pad-width] 的，就是 mobile layout)
+// ===========
+@mixin pad-width
 	@media screen and (min-width: $phone-media + 1px) 
 		@content
 
+// ===========
+// utility
+// ===========
 @mixin transition($transition...) 
 	-moz-transition:	$transition
 	-o-transition:	  $transition
 	-webkit-transition: $transition
 	transition:		 $transition
 
+// ===========
+// attributes utility
+// ===========
 @mixin pl($rem)
 	padding-left: calc(#{$nav-width} + #{$rem}rem)
 
 @mixin wh($w, $h:$w)
 	width: $w
 	height: $h
+
+// ===========
+// custom layout utility
+// ===========
+@mixin bar
+	position: fixed
+	z-index: $z-fixed
+	display: flex
+	background-color: $first-color
+
 
 *,
 ::before,
@@ -41,7 +59,7 @@ $phone-media:425px
 	+wh(100%, $header-height)
 	top: 0
 	left: 0
-	display: flex
+	display: none
 	align-items: center
 	justify-content: space-between
 	padding: 0 1rem
@@ -49,6 +67,7 @@ $phone-media:425px
 	z-index: $z-fixed
 	+transition(.5s)
 	+pad-width
+		display: flex
 		height: $header-height + 1rem
 		padding: 0 2rem 0 0
 		+pl(2)
@@ -75,58 +94,26 @@ $phone-media:425px
 				width: 45px
 
 .l-navbar
-	position: fixed
+	+bar
 	top: 0
-	left: -30%
+	left: -$nav-width
 	+wh($nav-width, 100vh)
-	background-color: $first-color
 	padding: .5rem 1rem 0 0
 	+transition(.5s)
-	z-index: $z-fixed
 	+pad-width
 		left: 0
 		padding: 1rem 1rem 0 0
 
 	height: 100%
-	display: flex
 	flex-direction: column
 	justify-content: space-between
 	overflow-x: hidden
 
+	.nav_link
+		margin-bottom: 1.5rem
+
 	&::-webkit-scrollbar
 		display: none
-
-	.nav_logo
-		margin-bottom: 2rem
-		.nav_logo-icon
-			font-size: 1.25rem
-			color: $white-color
-		.nav_logo-name
-			color: $white-color
-			font-weight: 700
-			
-	.nav_icon
-		font-size: 1.25rem
-
-	.nav_logo,
-	.nav_link
-		display: grid
-		grid-template-columns: max-content max-content
-		align-items: center
-		column-gap: 1rem
-		padding: .5rem 0 .5rem 1.5rem
-
-	.nav_link
-		position: relative
-		color: $first-color-light
-		margin-bottom: 1.5rem
-		transition: .3s
-
-		&:hover
-			color: $white-color
-
-	.nav_name
-		visibility: hidden
 
 	&.show
 		+pad-width
@@ -135,9 +122,38 @@ $phone-media:425px
 		.nav_name
 			visibility: visible
 
-	
+.nav_logo
+	margin-bottom: 2rem
+	.nav_logo-icon
+		font-size: $icon-size
+		color: $white-color
+	.nav_logo-name
+		color: $white-color
+		font-weight: 700
+		
+.nav_icon
+	font-size: $icon-size
 
-.body-pd
+.nav_logo,
+.nav_link
+	display: grid
+	grid-template-columns: max-content max-content
+	align-items: center
+	column-gap: 1rem
+	padding: .5rem 0 .5rem 1.5rem
+
+.nav_link
+	position: relative
+	color: $first-color-light
+	transition: .3s
+
+	&:hover
+		color: $white-color
+
+.nav_name
+	visibility: hidden
+
+.header_show-sidebar
 	+pl(1)
 	+pad-width
 		padding-left: $nav-width + 188px
@@ -158,20 +174,26 @@ $phone-media:425px
 		display: unset
 
 .b-navbar 
-	position: fixed
+	+bar
 	bottom: 0
 	left: 0
-	+wh(100%, 30px)
+	+wh(100%, 3rem)
 	+transition(.5s)
-	font-size: 1.5rem
+	font-size: $icon-size
+	align-items: center
+	overflow-y: hidden
 	+pad-width
 		display: none
 
-	nav.nav
-		display: flex
-		position: relative
-		justify-content: space-evenly
 	.nav_logo,
 	.nav_name 
 		display: none
-	.nav_link
+
+	.second
+		flex: 100px
+		display: flex
+		justify-content: space-evenly
+
+	&::-webkit-scrollbar
+		display: none
+	

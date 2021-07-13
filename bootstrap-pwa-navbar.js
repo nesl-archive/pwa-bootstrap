@@ -1,3 +1,5 @@
+'use-strict'
+
 const initLinkActive = () => {
     const linkColor = document.querySelectorAll('.nav_link')
     function colorLink() {
@@ -12,20 +14,17 @@ const initLinkActive = () => {
 const initHeaderToggleListener = (toggleId, navId, bodyId, headerId) => {
     const toggle = document.getElementById(toggleId),
         nav = document.getElementById(navId),
-        bodypd = document.getElementById(bodyId),
         headerpd = document.getElementById(headerId)
 
     // Validate that all variables exist
-    if (toggle && nav && bodypd && headerpd) {
+    if (toggle && nav && headerpd) {
         toggle.addEventListener('click', () => {
             // show navbar
             nav.classList.toggle('show')
             // change icon
             toggle.classList.toggle('bx-x')
-            // add padding to body
-            bodypd.classList.toggle('body-pd')
             // add padding to header
-            headerpd.classList.toggle('body-pd')
+            headerpd.classList.toggle('header_show-sidebar')
         })
     }
 }
