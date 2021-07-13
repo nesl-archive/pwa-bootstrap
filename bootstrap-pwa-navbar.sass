@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito")
 
-$header-height: 3rem
+$header-height: 4rem
 $nav-width: 68px
 $first-color: #4723D9
 $first-color-light: #AFA5D9
@@ -68,7 +68,7 @@ $phone-media:425px
 	+transition(.5s)
 	+pad-width
 		display: flex
-		height: $header-height + 1rem
+		height: $header-height
 		padding: 0 2rem 0 0
 		+pl(2)
 
@@ -197,3 +197,14 @@ $phone-media:425px
 	&::-webkit-scrollbar
 		display: none
 	
+.content
+	+transition(.5s)
+	+pad-width
+		margin-top: $header-height
+		margin-left: $nav-width
+		padding: 0 2rem
+
+	&.content_show-sidebar
+		+pad-width
+			padding: 0
+			margin-left: $nav-width + 188px
