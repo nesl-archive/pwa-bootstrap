@@ -9,33 +9,36 @@ $body-font: 'Nunito', sans-serif
 $normal-font-size: 1rem
 $z-fixed: 10
 
+$pc-media:1024px
+$pad-media:768px
+$phone-media:425px
+
+//手機
+@mixin pad-width() 
+	@media screen and (min-width: $phone-media + 1px) 
+		@content
+
+@mixin transition($transition...) 
+	-moz-transition:	$transition
+	-o-transition:	  $transition
+	-webkit-transition: $transition
+	transition:		 $transition
+
 @mixin pl($rem)
 	padding-left: calc(#{$nav-width} + #{$rem}rem)
 
-
-// 小於 425 px
+@mixin wh($w, $h:$w)
+	width: $w
+	height: $h
 
 *,
 ::before,
 ::after
 	box-sizing: border-box
 
-body
-	position: relative
-	padding: 0 1rem
-	+pl(0)
-	$nt-family: $body-font
-	font-size: $normal-font-size
-	transition: .5s
-
-a
-	text-decoration: none
-
-
 .header
-	width: 100%
-	height: $header-height
 	position: fixed
+	+wh(100%, $header-height)
 	top: 0
 	left: 0
 	display: flex
@@ -44,7 +47,11 @@ a
 	padding: 0 1rem
 	background-color: $white-color
 	z-index: $z-fixed
-	transition: .5s
+	+transition(.5s)
+	+pad-width
+		height: $header-height + 1rem
+		padding: 0 2rem 0 0
+		+pl(2)
 
 
 	.header_toggle
@@ -54,46 +61,52 @@ a
 
 
 	.header_img
-		width: 35px
-		height: 35px
+		+wh(35px)
 		display: flex
 		justify-content: center
 		border-radius: 50%
 		overflow: hidden
+		+pad-width
+			+wh(40px)
 
 		img
 			width: 40px
-
+			+pad-width
+				width: 45px
 
 .l-navbar
 	position: fixed
 	top: 0
 	left: -30%
-	width: $nav-width
-	height: 100vh
+	+wh($nav-width, 100vh)
 	background-color: $first-color
 	padding: .5rem 1rem 0 0
-	transition: .5s
+	+transition(.5s)
 	z-index: $z-fixed
+	+pad-width
+		left: 0
+		padding: 1rem 1rem 0 0
 
-	.nav
-		height: 100%
-		display: flex
-		flex-direction: column
-		justify-content: space-between
-		overflow: hidden
+	height: 100%
+	display: flex
+	flex-direction: column
+	justify-content: space-between
+	overflow-x: hidden
 
-		.nav_logo
-			margin-bottom: 2rem
-			.nav_logo-icon
-				font-size: 1.25rem
-				color: $white-color
-			.nav_logo-name
-				color: $white-color
-				font-weight: 700
-				
-		.nav_icon
+	&::-webkit-scrollbar
+		display: none
+
+	.nav_logo
+		margin-bottom: 2rem
+		.nav_logo-icon
 			font-size: 1.25rem
+			color: $white-color
+		.nav_logo-name
+			color: $white-color
+			font-weight: 700
+			
+	.nav_icon
+		font-size: 1.25rem
 
 	.nav_logo,
 	.nav_link
@@ -108,37 +121,51 @@ a
 		color: $first-color-light
 		margin-bottom: 1.5rem
 		transition: .3s
-	.nav_link:hover
-		color: $white-color
 
-.show
-	left: 0
+		&:hover
+			color: $white-color
+
+	.nav_name
+		visibility: hidden
+
+	&.show
+		+pad-width
+			width: $nav-width + 156px
+
+		.nav_name
+			visibility: visible
+
+	
 
 .body-pd
 	+pl(1)
+	+pad-width
+		padding-left: $nav-width + 188px
 
 .active
-	color: $white-color
+	color: $white-color !important
 
 .active::before
 	content: ''
 	position: absolute
 	left: 0
-	width: 2px
-	height: 32px
+	+wh(2px, 32px)
 	background-color: $white-color
 
 #header-toggle
 	display: none
+	+pad-width
+		display: unset
 
 .b-navbar 
 	position: fixed
 	bottom: 0
 	left: 0
-	width: 100%
-	height: 30px
-	transition: .5s
+	+wh(100%, 30px)
+	+transition(.5s)
 	font-size: 1.5rem
+	+pad-width
+		display: none
 
 	nav.nav
 		display: flex
@@ -148,39 +175,3 @@ a
 	.nav_name 
 		display: none
 	.nav_link
-
-
-@media screen and (min-width: 426px)
-	// 大於等於 425 px
-	body
-		margin: $header-height + 1rem 0 0 0
-		+pl(2)
-
-	.header
-		height: $header-height + 1rem
-		padding: 0 2rem 0 0
-		+pl(2)
-		.header_img
-			width: 40px
-			height: 40px
-			img
-				width: 45px
-
-	.l-navbar
-		left: 0
-		padding: 1rem 1rem 0 0
-
-
-	.show
-		width: $nav-width + 156px
-
-
-	.body-pd
-		padding-left: $nav-width + 188px
-
-
-	#header-toggle
-		display: unset
-
-	.b-navbar 
-		display: none
